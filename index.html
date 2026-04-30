@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Go For Gold VBS — World Harvest Church</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ═══════════════════════════════════════════
+       DESIGN TOKENS — WHC BRAND
+    ═══════════════════════════════════════════ */
+    :root {
+      --bg: #08050f;
+      --deep: #0e0b1a;
+      --card: #13101e;
+      --card2: #181428;
+      --card-hover: #1c1833;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(155,109,224,0.4);
+      --purple: #573198;
+      --purple-light: #7b4fc4;
+      --purple-lighter: #9b6de0;
+      --purple-dim: rgba(87,49,152,0.16);
+      --purple-glow: rgba(87,49,152,0.42);
+      --white: #f5f2fd;
+      --text: #f5f2fd;
+      --text-sub: rgba(235,228,255,0.75);
+      --muted: rgba(235,228,255,0.52);
+      --muted2: rgba(235,228,255,0.30);
+      --red: #c0392b;
+      /* VBS accent colours */
+      --gold: #F5C518;
+      --gold-light: #FFD94A;
+      --gold-dim: rgba(245,197,24,0.18);
+      --gold-glow: rgba(245,197,24,0.35);
+      --blue: #1565C0;
+      --blue-light: #1E88E5;
+      --navy: #0A1628;
+      --olympic-red: #D32F2F;
+      --olympic-green: #2E7D32;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Barlow', sans-serif;
+      --font-cond: 'Barlow Condensed', sans-serif;
+      --font-impact: 'Bebas Neue', var(--font-cond);
+      --nav-h: 72px;
+      --radius: 10px;
+      --radius-sm: 6px;
+      --radius-pill: 999px;
+      --transition: 0.3s ease;
+      --logo-filter: brightness(0) invert(1);
+      --nav-scrolled-bg: rgba(8,5,15,0.97);
+      --sidebar-bg: #0c0918;
+    }
+
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+    ═══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body.no-scroll { overflow: hidden; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--purple-dim); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--purple-light); }
+    ::selection { background: rgba(245,197,24,0.28); color: var(--text); }
+
+    /* ═══════════════════════════════════════════
+       UTILITY
+    ═══════════════════════════════════════════ */
+    .container { max-width: 1260px; margin: 0 auto; padding: 0 32px; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-cond); font-size: 13px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 13px 28px; border: none; cursor: pointer;
+      transition: all var(--transition); text-decoration: none;
+      border-radius: var(--radius);
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: #0a0a0a;
+    }
+    .btn-gold:hover {
+      background: var(--gold-light);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px var(--gold-glow);
+    }
+    .btn-outline-gold {
+      background: transparent; color: var(--gold);
+      border: 1.5px solid var(--gold);
+    }
+    .btn-outline-gold:hover {
+      background: var(--gold-dim); transform: translateY(-2px);
+    }
+    .btn-primary {
+      background: var(--purple); color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--purple-light); transform: translateY(-2px);
+      box-shadow: 0 10px 36px var(--purple-glow);
+    }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1.5px solid var(--border-hover);
+    }
+    .btn-outline:hover {
+      border-color: var(--purple-lighter); color: var(--purple-lighter);
+      transform: translateY(-2px); background: var(--purple-dim);
+    }
+    .btn-ghost {
+      background: transparent; color: var(--purple-lighter); padding: 0;
+      font-family: var(--font-cond); font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 7px;
+      border: none; cursor: pointer;
+      transition: gap var(--transition), opacity var(--transition);
+    }
+    .btn-ghost:hover { gap: 12px; opacity: 0.75; }
+
+    .section-label {
+      font-family: var(--font-cond); font-size: 12px; font-weight: 700;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--purple-lighter);
+      display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+    }
+    .section-label::before {
+      content: ''; display: block; width: 26px; height: 1.5px; background: var(--purple-lighter);
+    }
+    .section-label.gold-label { color: var(--gold); }
+    .section-label.gold-label::before { background: var(--gold); }
+
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.10s; }
+    .reveal-d2 { transition-delay: 0.20s; }
+    .reveal-d3 { transition-delay: 0.30s; }
+    .reveal-d4 { transition-delay: 0.40s; }
+
+    /* ═══════════════════════════════════════════
+       OVERLAY / SIDEBAR
+    ═══════════════════════════════════════════ */
+    #overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      z-index: 199; opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease; backdrop-filter: blur(6px);
+    }
+    #overlay.active { opacity: 1; pointer-events: all; }
+
+    .sidebar-mobile {
+      position: fixed; top: 0; right: 0; width: min(320px, 85vw); height: 100vh;
+      background: var(--sidebar-bg); z-index: 300;
+      transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+      display: flex; flex-direction: column;
+      border-left: 1px solid var(--border); overflow-y: auto;
+    }
+    .sidebar-mobile.open { transform: translateX(0); }
+    .sidebar-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px; border-bottom: 1px solid var(--border);
+    }
+    .sidebar-logo img { height: 38px; width: auto; filter: var(--logo-filter); }
+    .sidebar-close {
+      width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+      background: var(--purple-dim); border: 1px solid var(--border-hover);
+      border-radius: var(--radius-sm); color: var(--text); cursor: pointer; font-size: 16px;
+      transition: all var(--transition);
+    }
+    .sidebar-close:hover {
+      background: rgba(87,49,152,0.28); border-color: var(--purple-lighter);
+      color: var(--purple-lighter); transform: rotate(90deg);
+    }
+    .sidebar-body { padding: 24px; flex: 1; }
+    .sidebar-nav {
+      list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 28px;
+    }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 14px; padding: 14px 16px;
+      border-radius: var(--radius-sm); font-family: var(--font-cond); font-size: 15px;
+      font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text-sub); transition: all 0.2s ease;
+    }
+    .sidebar-nav a i { width: 20px; text-align: center; color: var(--purple-lighter); font-size: 13px; }
+    .sidebar-nav a:hover { color: var(--text); background: var(--purple-dim); }
+    .sidebar-divider { height: 1px; background: var(--border); margin: 20px 0; }
+    .sidebar-actions { display: flex; flex-direction: column; gap: 10px; }
+    .sidebar-actions .btn { width: 100%; justify-content: center; }
+    .sidebar-footer { padding: 20px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); text-align: center; }
+
+    /* ═══════════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════════ */
+    #mainNav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: var(--nav-h); padding: 0 28px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      background: transparent; border-bottom: 1px solid transparent; box-shadow: none;
+      transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+    }
+    #mainNav.scrolled {
+      background: rgba(8,5,15,0.96);
+      backdrop-filter: blur(24px) saturate(180%);
+      border-bottom-color: var(--border);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+    }
+    .nav-logo { display: flex; align-items: center; flex-shrink: 0; }
+    .nav-logo img {
+      height: 44px; width: auto; object-fit: contain;
+      filter: var(--logo-filter); transition: opacity var(--transition);
+    }
+    .nav-logo:hover img { opacity: 0.82; }
+    .nav-links-row {
+      display: flex; align-items: center; gap: 2px; list-style: none; flex: 1; justify-content: center;
+    }
+    .nav-link-item {
+      font-family: var(--font-cond); font-size: 13px; font-weight: 600; letter-spacing: 1.5px;
+      text-transform: uppercase; color: rgba(235,228,255,0.75);
+      padding: 8px 13px; border-radius: var(--radius-sm);
+      transition: color 0.2s, background 0.2s; cursor: pointer; border: none; background: none;
+      display: block; white-space: nowrap;
+    }
+    .nav-link-item:hover { color: var(--text); background: var(--purple-dim); }
+    .nav-link-item.active { color: var(--text) !important; background: var(--purple-dim); }
+    .nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .nav-live {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: var(--font-cond); font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: #fff;
+      padding: 9px 16px; border: 1.5px solid var(--red); border-radius: var(--radius-sm);
+      transition: all var(--transition);
+    }
+    .nav-live:hover { background: var(--red); color: #fff; }
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--red);
+      animation: pulse-dot 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.6); }
+    }
+    .nav-give {
+      font-family: var(--font-cond); font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: #fff;
+      background: var(--gold); color: #0a0a0a;
+      padding: 10px 18px; border-radius: var(--radius-sm);
+      transition: background var(--transition), transform var(--transition);
+    }
+    .nav-give:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .nav-hamburger {
+      display: none; align-items: center; gap: 8px;
+      font-family: var(--font-cond); font-size: 12px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase; color: var(--text);
+      background: var(--purple-dim); border: 1px solid var(--border-hover);
+      border-radius: var(--radius-sm); padding: 10px 14px; cursor: pointer;
+      transition: all var(--transition);
+    }
+    .nav-hamburger:hover { background: rgba(87,49,152,0.28); border-color: var(--purple-lighter); }
+    .nav-hamburger .ham-lines { display: flex; flex-direction: column; gap: 4px; width: 18px; }
+    .nav-hamburger .ham-lines span { display: block; height: 2px; background: currentColor; border-radius: 2px; transition: all 0.3s ease; }
+
+    /* ═══════════════════════════════════════════
+       CONFETTI OVERLAY
+    ═══════════════════════════════════════════ */
+    .confetti-canvas {
+      position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════ */
+    .vbs-hero {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      overflow: hidden; background: #040812;
+    }
+    .vbs-hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .vbs-hero-bg img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+      opacity: 0.55; filter: saturate(1.3) brightness(0.85);
+    }
+    .vbs-hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background:
+        linear-gradient(to right, rgba(4,8,18,0.94) 45%, rgba(4,8,18,0.3) 100%),
+        linear-gradient(to top, rgba(4,8,18,0.98) 0%, transparent 55%);
+    }
+    .vbs-hero-content {
+      position: relative; z-index: 2;
+      padding: calc(var(--nav-h) + 60px) 80px 100px;
+      max-width: 780px;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-cond); font-size: 13px; font-weight: 700;
+      letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 12px;
+      opacity: 0; animation: fade-up 0.8s 0.2s forwards;
+    }
+    .hero-eyebrow::before { content: ''; width: 26px; height: 1.5px; background: var(--gold); display: block; }
+    .hero-main-title {
+      font-family: var(--font-impact), var(--font-cond);
+      font-size: clamp(56px, 9vw, 130px);
+      font-weight: 400;
+      line-height: 0.9;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow: 0 4px 40px rgba(0,0,0,0.6);
+      margin-bottom: 4px;
+      opacity: 0; animation: fade-up 0.9s 0.3s forwards;
+    }
+    .hero-main-title .gold-line { color: var(--gold); display: block; }
+    .hero-sub-title {
+      font-family: var(--font-impact), var(--font-cond);
+      font-size: clamp(28px, 4.5vw, 60px);
+      font-weight: 400; letter-spacing: 3px;
+      color: rgba(255,255,255,0.92); line-height: 1;
+      margin-bottom: 28px;
+      opacity: 0; animation: fade-up 0.9s 0.38s forwards;
+    }
+    .hero-date-badge {
+      display: inline-flex; align-items: center; gap: 16px;
+      background: rgba(245,197,24,0.14);
+      border: 1.5px solid rgba(245,197,24,0.5);
+      border-radius: var(--radius-pill);
+      padding: 10px 24px; margin-bottom: 28px;
+      opacity: 0; animation: fade-up 0.9s 0.46s forwards;
+    }
+    .hero-date-badge .date-text {
+      font-family: var(--font-cond); font-size: 18px; font-weight: 700;
+      letter-spacing: 2px; color: var(--gold);
+    }
+    .hero-date-badge .sep { opacity: 0.4; font-size: 18px; }
+    .hero-meta {
+      font-family: var(--font-cond); font-size: 13px; font-weight: 600;
+      letter-spacing: 2px; color: rgba(255,255,255,0.7);
+    }
+    .olympic-rings {
+      display: flex; gap: 6px; align-items: center; margin-bottom: 32px;
+      opacity: 0; animation: fade-up 0.9s 0.52s forwards;
+    }
+    .ring {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 4px solid; display: inline-block;
+    }
+    .ring-b { border-color: #0081C8; }
+    .ring-y { border-color: #FCB131; margin-top: 14px; }
+    .ring-k { border-color: #000000; }
+    .ring-g { border-color: #00A651; margin-top: 14px; }
+    .ring-r { border-color: #DF0024; }
+    .hero-actions {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      opacity: 0; animation: fade-up 1s 0.6s forwards;
+    }
+    .hero-actions .btn { font-size: 14px; padding: 16px 36px; letter-spacing: 2.5px; }
+    .hero-trust {
+      margin-top: 22px;
+      font-family: var(--font-cond); font-size: 12px; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase; color: var(--muted);
+      opacity: 0; animation: fade-up 1s 0.72s forwards;
+    }
+    .hero-trust span { color: rgba(255,255,255,0.5); margin: 0 8px; }
+    .hero-video-play {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-cond); font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.75);
+      cursor: pointer; border: none; background: none;
+      transition: color 0.2s;
+    }
+    .hero-video-play:hover { color: var(--gold); }
+    .play-circle {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; transition: background 0.3s, border-color 0.3s;
+    }
+    .hero-video-play:hover .play-circle {
+      background: var(--gold-dim); border-color: var(--gold);
+    }
+
+    /* floating star decorations */
+    .hero-star { position: absolute; pointer-events: none; z-index: 2; }
+    .hero-star-1 { right: 8%; top: 22%; font-size: 80px; opacity: 0; animation: float-star 3s ease 1.2s forwards; }
+    .hero-star-2 { right: 18%; bottom: 28%; font-size: 50px; opacity: 0; animation: float-star 3s ease 1.5s forwards; }
+    @keyframes float-star {
+      from { opacity: 0; transform: translateY(20px) rotate(-15deg); }
+      to { opacity: 0.7; transform: translateY(0) rotate(0deg); }
+    }
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════
+       TICKER
+    ═══════════════════════════════════════════ */
+    .times-bar {
+      background: var(--gold); padding: 12px 0; overflow: hidden;
+    }
+    .times-inner {
+      display: flex; align-items: center; gap: 52px;
+      animation: ticker 32s linear infinite; white-space: nowrap; width: max-content;
+    }
+    .times-item {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-cond); font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: #0a0a0a;
+    }
+    .times-item .sep { opacity: 0.3; font-size: 16px; }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ═══════════════════════════════════════════
+       WHAT TO EXPECT
+    ═══════════════════════════════════════════ */
+    .expect {
+      padding: 100px 0; background: var(--deep);
+      position: relative; overflow: hidden;
+    }
+    .expect::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--olympic-red), #0081C8, #000, #00A651, #FCB131);
+    }
+    .expect-header { text-align: center; margin-bottom: 64px; }
+    .expect-header h2 {
+      font-family: var(--font-impact), var(--font-cond);
+      font-size: clamp(32px, 4vw, 58px); font-weight: 400;
+      letter-spacing: 2px; color: #fff; line-height: 1.1;
+      text-transform: uppercase;
+    }
+    .expect-header h2 .gold { color: var(--gold); }
+    .expect-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    }
+    .expect-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px 28px;
+      text-align: center; transition: all var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .expect-card::before {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; transform: scaleX(0); transform-origin: left;
+      transition: transform 0.45s ease;
+      border-radius: 0 0 var(--radius) var(--radius);
+    }
+    .expect-card:hover::before { transform: scaleX(1); }
+    .expect-card:nth-child(1)::before { background: #0081C8; }
+    .expect-card:nth-child(2)::before { background: #FCB131; }
+    .expect-card:nth-child(3)::before { background: #00A651; }
+    .expect-card:nth-child(4)::before { background: #DF0024; }
+    .expect-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(245,197,24,0.35);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .expect-icon {
+      width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 20px;
+      display: flex; align-items: center; justify-content: center; font-size: 30px;
+      border: 2px solid;
+    }
+    .expect-card:nth-child(1) .expect-icon { background: rgba(0,129,200,0.15); border-color: rgba(0,129,200,0.5); }
+    .expect-card:nth-child(2) .expect-icon { background: rgba(252,177,49,0.15); border-color: rgba(252,177,49,0.5); }
+    .expect-card:nth-child(3) .expect-icon { background: rgba(0,166,81,0.15); border-color: rgba(0,166,81,0.5); }
+    .expect-card:nth-child(4) .expect-icon { background: rgba(223,0,36,0.15); border-color: rgba(223,0,36,0.5); }
+    .expect-card h3 {
+      font-family: var(--font-cond); font-size: 16px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: #fff;
+      margin-bottom: 10px;
+    }
+    .expect-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* ═══════════════════════════════════════════
+       VIDEO EXPERIENCE SECTION
+    ═══════════════════════════════════════════ */
+    .vbs-video {
+      padding: 96px 0; background: var(--bg);
+    }
+    .vbs-video-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .vbs-video-text h2 {
+      font-family: var(--font-impact), var(--font-cond);
+      font-size: clamp(36px, 4vw, 62px); font-weight: 400;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: #fff; line-height: 1; margin-bottom: 20px;
+    }
+    .vbs-video-text h2 .gold { color: var(--gold); }
+    .vbs-video-text p { font-size: 15px; line-height: 1.8; color: var(--muted); margin-bottom: 28px; }
+    .vbs-video-embed {
+      border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    }
+    .vbs-video-embed img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block;
+    }
+    .video-thumb-wrap {
+      position: relative; border-radius: var(--radius); overflow: hidden;
+      cursor: pointer; border: 1px solid rgba(245,197,24,0.3);
+    }
+    .video-thumb-wrap:hover .video-play-btn { background: var(--gold); transform: scale(1.1); }
+    .video-thumb-wrap img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .video-play-btn {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.35); transition: background 0.3s;
+    }
+    .video-play-btn i { font-size: 56px; color: #fff; filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5)); }
+    .video-thumb-wrap:hover .video-play-btn i { color: #0a0a0a; }
+
+    /* ═══════════════════════════════════════════
+       PARENTS TRUST SECTION
+    ═══════════════════════════════════════════ */
+    .parents-trust {
+      padding: 96px 0; background: var(--deep);
+    }
+    .parents-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .parents-img-wrap { position: relative; border-radius: var(--radius); overflow: hidden; }
+    .parents-img-wrap img {
+      width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block;
+      border-radius: var(--radius);
+    }
+    .parents-quote-badge {
+      position: absolute; bottom: -1px; right: -1px; left: -1px;
+      background: linear-gradient(to top, rgba(10,22,40,0.97) 60%, transparent);
+      padding: 40px 28px 28px;
+    }
+    .quote-text {
+      font-family: var(--font-display); font-style: italic; font-size: 17px;
+      font-weight: 700; color: #fff; line-height: 1.5; margin-bottom: 8px;
+    }
+    .quote-attr {
+      font-family: var(--font-cond); font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
+    }
+    .parents-text h2 {
+      font-family: var(--font-impact), var(--font-cond);
+      font-size: clamp(32px, 3.5vw, 52px); font-weight: 400;
+      letter-spacing: 2px; text-transform: uppercase;
+      line-height: 1.05; margin-bottom: 28px; color: #fff;
+    }
+    .parents-text h2 .red { color: var(--olympic-red); }
+    .trust-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .trust-list li {
+      display: flex; align-items: flex-start; gap: 14px;
+      font-size: 15px; color: var(--text-sub); line-height: 1.5;
+    }
+    .trust-list li i { color: var(--gold); font-size: 16px; margin-top: 2px; flex-shrink: 0; }
+
+    /* ═══════════════════════════════════════════
+       EVENT DETAILS
+    ═══════════════════════════════════════════ */
+    .event-details {
+      padding: 80px 0; background: var(--navy);
+      border-top: 1px solid rgba(245,197,24,0.2);
+      border-bottom: 1px solid rgba(245,197,24,0.2);
+    }
+    .event-details-label {
+      font-family: var(--font-impact), var(--font-cond);
+      font-size: 13px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); text-align: center; margin-bottom: 40px;
+    }
+    .details-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px;
+      background: rgba(245,197,24,0.12); border-radius: var(--radius);
+      overflow: hidden; border: 1px solid rgba(245,197,24,0.15);
+    }
+    .detail-item {
+      background: var(--navy); padding: 32px 20px; text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      transition: background var(--transition);
+    }
+    .detail-item:hover { background: rgba(245,197,24,0.06); }
+    .detail-icon { font-size: 24px; color: var(--gold); }
+    .detail-label {
+      font-family: var(--font-cond); font-size: 10px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase; color: var(--muted);
+    }
+    .detail-value {
+      font-family: var(--font-cond); font-size: 16px; font-weight: 700;
+      letter-spacing: 1px; color: #fff; line-height: 1.3; text-align: center;
+    }
+
+    /* ═══════════════════════════════════════════
+       THEME SECTION
+    ═══════════════════════════════════════════ */
+    .theme-section {
+      padding: 112px 0; position: relative; overflow: hidden;
+      background: #040812;
+    }
+    .theme-bg {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .theme-bg img {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0.18; filter: saturate(1.5);
+    }
+    .theme-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: radial-gradient(ellipse at 50% 50%, rgba(245,197,24,0.06) 0%, rgba(4,8,18,0.85) 65%);
+    }
+    .theme-content {
+      position: relative; z-index: 2; text-align: center; max-width: 820px; margin: 0 auto;
+    }
+    .torch-decorations {
+      display: flex; justify-content: center; gap: 60px; margin-bottom: 32px;
+      font-size: 52px; line-height: 1;
+    }
+    .theme-mega-title {
+      font-family: var(--font-impact), var(--font-cond);
+      font-size: clamp(42px, 7vw, 96px); font-weight: 400;
+      letter-spacing: 4px; text-transform: uppercase; color: #fff; line-height: 1;
+      margin-bottom: 12px;
+    }
+    .theme-mega-title .gold { color: var(--gold); }
+    .theme-subtitle {
+      font-family: var(--font-impact), var(--font-cond);
+      font-size: clamp(28px, 4vw, 56px); font-weight: 400;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(255,255,255,0.5); margin-bottom: 32px;
+    }
+    .verse-badge {
+      display: inline-block;
+      background: rgba(245,197,24,0.1); border: 1px solid rgba(245,197,24,0.3);
+      border-radius: var(--radius-pill); padding: 8px 22px; margin-bottom: 32px;
+      font-family: var(--font-cond); font-size: 12px; font-weight: 600;
+      letter-spacing: 2px; color: var(--gold); text-transform: uppercase;
+    }
+    .theme-body {
+      font-size: 16px; line-height: 1.85; color: var(--text-sub); max-width: 620px; margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════
+       IMAGE GALLERY / EXPERIENCE
+    ═══════════════════════════════════════════ */
+    .vbs-gallery {
+      padding: 96px 0; background: var(--deep);
+    }
+    .gallery-mosaic {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 280px 280px;
+      gap: 10px; margin-top: 52px; border-radius: var(--radius); overflow: hidden;
+    }
+    .mosaic-item { overflow: hidden; position: relative; cursor: pointer; }
+    .mosaic-item:first-child { grid-row: 1 / 3; }
+    .mosaic-item img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.55s ease;
+    }
+    .mosaic-item:hover img { transform: scale(1.06); }
+    .mosaic-item .mosaic-overlay {
+      position: absolute; inset: 0;
+      background: rgba(245,197,24,0);
+      transition: background 0.3s;
+    }
+    .mosaic-item:hover .mosaic-overlay { background: rgba(245,197,24,0.12); }
+
+    /* ═══════════════════════════════════════════
+       FAQ
+    ═══════════════════════════════════════════ */
+    .vbs-faq {
+      padding: 96px 0; background: var(--bg);
+    }
+    .faq-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+    }
+    .faq-text h2 {
+      font-family: var(--font-impact), var(--font-cond);
+      font-size: clamp(36px, 4vw, 62px); font-weight: 400;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: #fff; line-height: 1; margin-bottom: 20px;
+    }
+    .faq-text h2 .gold { color: var(--gold); }
+    .faq-text p { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 32px; }
+    .faq-img {
+      border-radius: var(--radius); overflow: hidden;
+      border: 1px solid rgba(245,197,24,0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .faq-img img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
+    .faq-grid {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .faq-item {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      transition: border-color var(--transition);
+    }
+    .faq-item:hover { border-color: rgba(245,197,24,0.3); }
+    .faq-q {
+      padding: 20px 22px; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      font-family: var(--font-cond); font-size: 15px; font-weight: 700;
+      letter-spacing: 0.5px; color: #fff; user-select: none;
+    }
+    .faq-q i { color: var(--gold); font-size: 13px; flex-shrink: 0; transition: transform 0.3s; }
+    .faq-item.open .faq-q i { transform: rotate(45deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s;
+      font-size: 14px; color: var(--muted); line-height: 1.7;
+      padding: 0 22px;
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding: 0 22px 20px; }
+
+    /* ═══════════════════════════════════════════
+       FINAL CTA
+    ═══════════════════════════════════════════ */
+    .final-cta {
+      padding: 100px 0; position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #0d1117 0%, var(--navy) 50%, #0d1117 100%);
+    }
+    .final-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(245,197,24,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 50%, rgba(87,49,152,0.12) 0%, transparent 60%);
+    }
+    .final-cta-inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 64px;
+    }
+    .final-cta-text h2 {
+      font-family: var(--font-impact), var(--font-cond);
+      font-size: clamp(36px, 4.5vw, 66px); font-weight: 400;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: #fff; line-height: 1; margin-bottom: 14px;
+    }
+    .final-cta-text h2 .gold { color: var(--gold); }
+    .final-cta-text p { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 500px; }
+    .final-cta-actions {
+      display: flex; flex-direction: column; align-items: stretch; gap: 12px; min-width: 240px;
+    }
+    .final-cta-actions .btn { justify-content: center; font-size: 14px; padding: 16px 28px; }
+    .cta-url {
+      text-align: center; font-family: var(--font-cond); font-size: 11px;
+      font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--muted); margin-top: 8px;
+    }
+    .cta-url a { color: var(--gold); }
+    .trophy-deco { position: absolute; right: 5%; bottom: 0; font-size: 180px; opacity: 0.06; line-height: 1; pointer-events: none; }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+    footer {
+      background: var(--bg); border-top: 1px solid var(--border); padding: 72px 0 36px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 56px; margin-bottom: 56px;
+    }
+    .footer-brand img {
+      height: 46px; width: auto; margin-bottom: 16px; filter: var(--logo-filter);
+    }
+    .footer-brand p { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 22px; max-width: 250px; }
+    .footer-socials { display: flex; gap: 9px; }
+    .social-btn {
+      width: 34px; height: 34px; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 13px; border-radius: var(--radius-sm);
+      transition: all var(--transition);
+    }
+    .social-btn:hover { border-color: var(--purple-lighter); color: var(--purple-lighter); background: var(--purple-dim); }
+    .footer-col h5 {
+      font-family: var(--font-cond); font-size: 10px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--purple-lighter); margin-bottom: 18px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .footer-col a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
+    .footer-col a:hover { color: var(--text); }
+    .footer-bottom {
+      padding-top: 28px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+    }
+    .footer-bottom p { font-size: 11px; color: var(--muted2); }
+    .footer-bottom a { color: var(--muted2); }
+    .footer-bottom a:hover { color: var(--purple-lighter); }
+
+    #backToTop {
+      position: fixed; bottom: 32px; right: 32px; z-index: 50;
+      width: 44px; height: 44px; background: var(--gold); color: #0a0a0a;
+      border: none; border-radius: var(--radius-pill);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; cursor: pointer;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.35s ease, transform 0.35s ease, background 0.2s;
+      pointer-events: none; box-shadow: 0 4px 20px var(--gold-glow);
+    }
+    #backToTop.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
+    #backToTop:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════ */
+    @media (min-width: 1100px) {
+      .nav-links-row { display: flex; }
+      .nav-hamburger { display: none; }
+    }
+    @media (max-width: 1099px) {
+      .nav-links-row { display: none; }
+      .nav-hamburger { display: inline-flex; }
+    }
+    @media (max-width: 960px) {
+      .expect-grid { grid-template-columns: 1fr 1fr; }
+      .vbs-video-inner, .parents-inner, .faq-inner { grid-template-columns: 1fr; gap: 44px; }
+      .gallery-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .gallery-mosaic .mosaic-item:first-child { grid-row: auto; }
+      .details-grid { grid-template-columns: repeat(3, 1fr); }
+      .final-cta-inner { grid-template-columns: 1fr; gap: 40px; }
+      .final-cta-actions { flex-direction: row; min-width: unset; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+    }
+    @media (max-width: 640px) {
+      .container { padding: 0 18px; }
+      .vbs-hero-content { padding: calc(var(--nav-h) + 32px) 22px 80px; }
+      .hero-main-title { font-size: 52px; }
+      .expect-grid { grid-template-columns: 1fr; }
+      .details-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-mosaic { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .final-cta-actions { flex-direction: column; }
+      #mainNav { padding: 0 16px; }
+      .nav-live, .nav-give { display: none; }
+      .torch-decorations { font-size: 36px; gap: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="overlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar-mobile" id="sidebarMobile" aria-label="Mobile navigation" role="dialog" aria-modal="true">
+  <div class="sidebar-header">
+    <a href="index.html" class="sidebar-logo">
+      <img src="https://elro-images.s3.us-east-2.amazonaws.com/tosm/WHC+Wheat+Logo+(1).png" alt="World Harvest Church">
+    </a>
+    <button class="sidebar-close" id="sidebarClose" aria-label="Close menu">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="sidebar-body">
+    <ul class="sidebar-nav" role="list">
+      <li><a href="#about-vbs" onclick="closeSidebar()"><i class="fas fa-star"></i> About VBS</a></li>
+      <li><a href="#details" onclick="closeSidebar()"><i class="fas fa-calendar"></i> Details</a></li>
+      <li><a href="#faq" onclick="closeSidebar()"><i class="fas fa-question-circle"></i> FAQ</a></li>
+      <li><a href="index.html"><i class="fas fa-church"></i> Back to WHC</a></li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-actions">
+      <a href="https://whc.life/vbs" target="_blank" class="btn btn-gold" onclick="closeSidebar()">
+        <i class="fas fa-medal"></i> Register Now
+      </a>
+      <a href="index.html" class="btn btn-outline" onclick="closeSidebar()">
+        <i class="fas fa-home"></i> WHC Home
+      </a>
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <p>4595 Gender Rd., Canal Winchester, OH</p>
+    <p style="margin-top:4px"><a href="tel:6148371990" style="color:var(--gold)">(614) 837-1990</a></p>
+  </div>
+</aside>
+
+<!-- NAV -->
+<nav id="mainNav" aria-label="Main navigation">
+  <a href="index.html" class="nav-logo" aria-label="World Harvest Church home">
+    <img src="https://elro-images.s3.us-east-2.amazonaws.com/tosm/WHC+Wheat+Logo+(1).png" alt="World Harvest Church">
+  </a>
+  <ul class="nav-links-row" role="list">
+    <li><a href="#about-vbs" class="nav-link-item">About VBS</a></li>
+    <li><a href="#details" class="nav-link-item">Details</a></li>
+    <li><a href="#parents" class="nav-link-item">For Parents</a></li>
+    <li><a href="#faq" class="nav-link-item">FAQ</a></li>
+    <li><a href="index.html" class="nav-link-item">WHC Home</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://www.youtube.com/@rodparsley/streams" target="_blank" class="nav-live" aria-label="Watch live">
+      <span class="live-dot" aria-hidden="true"></span> Watch Live
+    </a>
+    <a href="https://whc.life/vbs" target="_blank" class="nav-give">Register Now</a>
+    <button class="nav-hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="sidebarMobile">
+      <div class="ham-lines" aria-hidden="true"><span></span><span></span><span></span></div>
+      Menu
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="vbs-hero" aria-label="VBS Hero">
+  <div class="vbs-hero-bg">
+    <img src="https://ik.imagekit.io/vddpcxj7e/vbs/ChatGPT Image Apr 29, 2026, 03_30_27 PM.png?tr=f-auto,q-auto,w-1200" alt="VBS Go for Gold" loading="eager">
+  </div>
+  <div class="vbs-hero-overlay" aria-hidden="true"></div>
+  <div class="vbs-hero-content">
+    <div class="hero-eyebrow">World Harvest Church · Kids Ministry</div>
+    <div class="hero-main-title">
+      <span>Go For</span>
+      <span class="gold-line">Gold</span>
+    </div>
+    <div class="hero-sub-title">Vacation Bible School</div>
+    <div class="hero-date-badge">
+      <span class="date-text">June 10–12</span>
+      <span class="sep">·</span>
+      <span class="date-text">6–8 PM</span>
+      <span class="sep">·</span>
+      <span class="meta">1st–5th Grade · Free</span>
+    </div>
+    <div class="olympic-rings" aria-label="Olympic rings" aria-hidden="true">
+      <span class="ring ring-b"></span>
+      <span class="ring ring-y"></span>
+      <span class="ring ring-k"></span>
+      <span class="ring ring-g"></span>
+      <span class="ring ring-r"></span>
+    </div>
+    <div class="hero-actions">
+      <a href="https://whc.life/vbs" target="_blank" class="btn btn-gold">
+        <i class="fas fa-medal"></i> Register Now — It's Free!
+      </a>
+      <a href="#about-vbs" class="btn btn-outline-gold">
+        <i class="fas fa-play"></i> Watch What It's Like
+      </a>
+    </div>
+    <p class="hero-trust">Safe <span>·</span> Fun <span>·</span> Faith-Filled</p>
+  </div>
+  <div class="hero-star hero-star-1" aria-hidden="true">⭐</div>
+  <div class="hero-star hero-star-2" aria-hidden="true">🥇</div>
+</section>
+
+<!-- TICKER -->
+<div class="times-bar" aria-hidden="true">
+  <div class="times-inner">
+    <div class="times-item"><i class="fas fa-calendar-alt"></i><span>June 10–12 · 6–8 PM</span></div>
+    <div class="times-item"><span class="sep">·</span><span>1st–5th Grade</span></div>
+    <div class="times-item"><span class="sep">·</span><span>Totally Free Event</span></div>
+    <div class="times-item"><span class="sep">·</span><span>World Harvest Church · Columbus, Ohio</span></div>
+    <div class="times-item"><span class="sep">·</span><span>Games · Worship · Bible Adventures · Prizes</span></div>
+    <div class="times-item"><span class="sep">·</span><span>Register at whc.life/vbs</span></div>
+    <!-- loop duplicate -->
+    <div class="times-item"><i class="fas fa-calendar-alt"></i><span>June 10–12 · 6–8 PM</span></div>
+    <div class="times-item"><span class="sep">·</span><span>1st–5th Grade</span></div>
+    <div class="times-item"><span class="sep">·</span><span>Totally Free Event</span></div>
+    <div class="times-item"><span class="sep">·</span><span>World Harvest Church · Columbus, Ohio</span></div>
+    <div class="times-item"><span class="sep">·</span><span>Games · Worship · Bible Adventures · Prizes</span></div>
+    <div class="times-item"><span class="sep">·</span><span>Register at whc.life/vbs</span></div>
+  </div>
+</div>
+
+<!-- ═══════ WHAT TO EXPECT ═══════ -->
+<section class="expect" id="about-vbs">
+  <div class="container">
+    <div class="expect-header reveal">
+      <div class="section-label gold-label" style="justify-content:center">What's Inside</div>
+      <h2>The Most Fun Your Kids<br><span class="gold">Will Have All Summer!</span></h2>
+    </div>
+    <div class="expect-grid">
+      <div class="expect-card reveal">
+        <div class="expect-icon">🏆</div>
+        <h3>Games & Activities</h3>
+        <p>Olympic-style challenges, team competitions, bubble soccer, and high-energy fun that kids go home talking about.</p>
+      </div>
+      <div class="expect-card reveal reveal-d1">
+        <div class="expect-icon">🎶</div>
+        <h3>Worship & Music</h3>
+        <p>Kid-friendly worship that builds faith and joy — upbeat songs and unforgettable Bible learning moments.</p>
+      </div>
+      <div class="expect-card reveal reveal-d2">
+        <div class="expect-icon">📖</div>
+        <h3>Bible Adventures</h3>
+        <p>Engaging lessons that teach purpose, identity, and how to run their race — rooted in Hebrews 12:1.</p>
+      </div>
+      <div class="expect-card reveal reveal-d3">
+        <div class="expect-icon">🎁</div>
+        <h3>Prizes & Surprises</h3>
+        <p>Giveaways, snacks, and daily surprises your kids will love. Every night ends with a celebration.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ VIDEO SECTION ═══════ -->
+<section class="vbs-video" id="experience">
+  <div class="container">
+    <div class="vbs-video-inner">
+      <div class="vbs-video-text reveal">
+        <div class="section-label gold-label">See The Experience</div>
+        <h2>Check Out What <span class="gold">VBS Is All About</span></h2>
+        <p>Kids bouncing in bubble soccer, worshipping at the top of their lungs, and discovering they were made for more. This is what three nights at Go for Gold looks like.</p>
+        <a href="https://whc.life/vbs" target="_blank" class="btn btn-gold">
+          <i class="fas fa-play"></i> Watch Video
+        </a>
+      </div>
+      <div class="video-thumb-wrap reveal reveal-d2">
+        <img src="https://ik.imagekit.io/vddpcxj7e/vbs/ChatGPT Image Apr 29, 2026, 03_28_03 PM.png?tr=f-auto,q-auto,w-1200" alt="VBS Experience Video">
+        <div class="video-play-btn">
+          <i class="fas fa-play-circle"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PARENTS TRUST ═══════ -->
+<section class="parents-trust" id="parents">
+  <div class="container">
+    <div class="parents-inner">
+      <div class="parents-img-wrap reveal">
+        <img src="https://ik.imagekit.io/vddpcxj7e/vbs/ChatGPT Image Apr 29, 2026, 02_53_26 PM.png?tr=f-auto,q-auto,w-1200" alt="Happy kids at VBS">
+        <div class="parents-quote-badge">
+          <p class="quote-text">"My kids couldn't stop talking about it!"</p>
+          <p class="quote-attr">— VBS Parent</p>
+        </div>
+      </div>
+      <div class="parents-text reveal reveal-d2">
+        <div class="section-label">For Parents</div>
+        <h2>Built for Kids.<br><span class="red">Trusted by Parents.</span></h2>
+        <ul class="trust-list">
+          <li><i class="fas fa-check-circle"></i> Background-checked &amp; trained leaders</li>
+          <li><i class="fas fa-check-circle"></i> Safe check-in &amp; check-out system</li>
+          <li><i class="fas fa-check-circle"></i> Age-appropriate, structured program</li>
+          <li><i class="fas fa-check-circle"></i> Positive, encouraging environment</li>
+          <li><i class="fas fa-check-circle"></i> A ministry of World Harvest Church</li>
+        </ul>
+        <div style="margin-top: 36px; display: flex; gap: 14px; flex-wrap: wrap;">
+          <a href="https://whc.life/vbs" target="_blank" class="btn btn-gold">
+            <i class="fas fa-medal"></i> Register My Child
+          </a>
+          <a href="#faq" class="btn btn-outline">
+            <i class="fas fa-question-circle"></i> View FAQs
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ EVENT DETAILS ═══════ -->
+<section class="event-details" id="details">
+  <div class="container">
+    <div class="event-details-label reveal">Event Details</div>
+    <div class="details-grid reveal reveal-d1">
+      <div class="detail-item">
+        <div class="detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div class="detail-label">Location</div>
+        <div class="detail-value">World Harvest Church<br>Columbus, Ohio</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon"><i class="fas fa-calendar-alt"></i></div>
+        <div class="detail-label">Dates</div>
+        <div class="detail-value">June 10–12<br>2026</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon"><i class="fas fa-clock"></i></div>
+        <div class="detail-label">Time</div>
+        <div class="detail-value">6:00 PM – 8:00 PM<br><span style="font-size:12px;color:var(--muted)">Doors open 5:30 PM</span></div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon"><i class="fas fa-child"></i></div>
+        <div class="detail-label">Ages</div>
+        <div class="detail-value">1st – 5th<br>Grade</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon"><i class="fas fa-tag"></i></div>
+        <div class="detail-label">Cost</div>
+        <div class="detail-value" style="color:var(--gold);font-size:22px;">FREE!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ THEME SECTION ═══════ -->
+<section class="theme-section">
+  <div class="theme-bg"><img src="https://ik.imagekit.io/vddpcxj7e/vbs/F79A8898.JPG?tr=f-auto,q-auto,w-1200" alt="VBS background" loading="lazy"></div>
+  <div class="theme-overlay" aria-hidden="true"></div>
+  <div class="container">
+    <div class="theme-content reveal">
+      <div class="torch-decorations" aria-hidden="true">🔥<span style="font-size:64px">🏅</span>🔥</div>
+      <div class="theme-mega-title"><span class="gold">Run Your Race.</span></div>
+      <div class="theme-subtitle">Go for Gold.</div>
+      <div class="verse-badge">Hebrews 12:1 · Run with Endurance</div>
+      <p class="theme-body">Every child is created with purpose. This week is about discovering it — through faith, fun, and unforgettable moments that last a lifetime. Your child will leave knowing they were made for greatness.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ IMAGE GALLERY ═══════ -->
+<section class="vbs-gallery">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 8px;" class="reveal">
+      <div class="section-label gold-label" style="justify-content:center">Life at VBS</div>
+      <h2 style="font-family:var(--font-impact),var(--font-cond);font-size:clamp(28px,3.5vw,50px);font-weight:400;letter-spacing:2px;text-transform:uppercase;color:#fff;">Moments Worth <span style="color:var(--gold)">Remembering</span></h2>
+    </div>
+    <div class="gallery-mosaic reveal">
+      <div class="mosaic-item">
+        <img src="https://ik.imagekit.io/vddpcxj7e/vbs/WHC.4.5.26-116.jpg?tr=f-auto,q-auto,w-1200" alt="VBS fun" loading="lazy">
+        <div class="mosaic-overlay"></div>
+      </div>
+      <div class="mosaic-item">
+        <img src="https://ik.imagekit.io/vddpcxj7e/vbs/Space camp fun with friends.png?tr=f-auto,q-auto,w-1200" alt="Kids activities" loading="lazy">
+        <div class="mosaic-overlay"></div>
+      </div>
+      <div class="mosaic-item">
+        <img src="https://ik.imagekit.io/vddpcxj7e/vbs/Laughter and joy in a lively classroom.png?tr=f-auto,q-auto,w-1200" alt="Classroom fun" loading="lazy">
+        <div class="mosaic-overlay"></div>
+      </div>
+      <div class="mosaic-item">
+        <img src="https://ik.imagekit.io/vddpcxj7e/vbs/DSC05172.jpg?tr=f-auto,q-auto,w-1200" alt="VBS worship" loading="lazy">
+        <div class="mosaic-overlay"></div>
+      </div>
+      <div class="mosaic-item">
+        <img src="https://ik.imagekit.io/vddpcxj7e/vbs/WHC.4.5.26-5.jpg?tr=f-auto,q-auto,w-1200" alt="VBS games" loading="lazy">
+        <div class="mosaic-overlay"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FAQ ═══════ -->
+<section class="vbs-faq" id="faq">
+  <div class="container">
+    <div class="faq-inner">
+      <div>
+        <div class="faq-text reveal">
+          <div class="section-label gold-label">Got Questions?</div>
+          <h2>Frequently <span class="gold">Asked Questions</span></h2>
+          <p>Everything you need to know before registering your child. Can't find an answer? Call us at (614) 837-1990.</p>
+        </div>
+        <div class="faq-grid reveal reveal-d1">
+          <div class="faq-item">
+            <div class="faq-q">Do parents stay during VBS? <i class="fas fa-plus"></i></div>
+            <div class="faq-a">No, this is a drop-off event. Our team is background-checked, trained, and ready to welcome and care for your kids while you enjoy a night out!</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">What should my child wear? <i class="fas fa-plus"></i></div>
+            <div class="faq-a">Comfortable clothes and closed-toe shoes suitable for active games and activities. Kids will be moving, jumping, and having tons of fun!</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Is there food? <i class="fas fa-plus"></i></div>
+            <div class="faq-a">Yes! Light snacks and drinks will be provided each night. If your child has food allergies, please note them during registration.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Can I register multiple kids? <i class="fas fa-plus"></i></div>
+            <div class="faq-a">Absolutely! You can register all your children during the same registration process at whc.life/vbs. Bring the whole crew!</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">What grades are eligible? <i class="fas fa-plus"></i></div>
+            <div class="faq-a">VBS is designed for children currently in 1st through 5th grade. We have age-appropriate activities and Bible lessons for each group.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Is registration really free? <i class="fas fa-plus"></i></div>
+            <div class="faq-a">100% free! World Harvest Church covers all costs so every family can participate. No hidden fees, no donations required — just bring your kids!</div>
+          </div>
+        </div>
+      </div>
+      <div class="faq-img reveal reveal-d2">
+        <img src="https://ik.imagekit.io/vddpcxj7e/vbs/ChatGPT Image Apr 29, 2026, 03_25_48 PM.png?tr=f-auto,q-auto,w-1200" alt="Smiling VBS kids" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FINAL CTA ═══════ -->
+<section class="final-cta">
+  <div class="trophy-deco" aria-hidden="true">🏆</div>
+  <div class="container">
+    <div class="final-cta-inner reveal">
+      <div class="final-cta-text">
+        <div class="section-label gold-label">Don't Miss It!</div>
+        <h2>Spots Fill Up <span class="gold">Fast.</span></h2>
+        <p>Secure your child's place today — registration is free, fast, and takes just two minutes. Three nights of faith, fun, and gold-worthy memories await.</p>
+      </div>
+      <div class="final-cta-actions">
+        <a href="https://whc.life/vbs" target="_blank" class="btn btn-gold" style="font-size:14px;padding:18px 28px;">
+          <i class="fas fa-medal"></i> Register at whc.life/vbs
+        </a>
+        <a href="tel:6148371990" class="btn btn-outline">
+          <i class="fas fa-phone"></i> (614) 837-1990
+        </a>
+        <p class="cta-url">Questions? Visit <a href="https://whc.life/vbs" target="_blank">whc.life/vbs</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="https://elro-images.s3.us-east-2.amazonaws.com/tosm/WHC+Wheat+Logo+(1).png" alt="World Harvest Church">
+        <p>A house of prayer and healing for the nations. Miracles · Breakthrough · Revival.</p>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/rodparsley" target="_blank" title="Facebook" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/rodparsley" target="_blank" title="Instagram" class="social-btn"><i class="fab fa-instagram"></i></a>
+          <a href="https://x.com/RealRodParsley" target="_blank" title="X / Twitter" class="social-btn"><i class="fab fa-x-twitter"></i></a>
+          <a href="https://www.youtube.com/@rodparsley" target="_blank" title="YouTube" class="social-btn"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>VBS</h5>
+        <ul>
+          <li><a href="#about-vbs">About VBS</a></li>
+          <li><a href="#details">Event Details</a></li>
+          <li><a href="#parents">For Parents</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="https://whc.life/vbs" target="_blank">Register Now</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Visit WHC</h5>
+        <ul>
+          <li><a href="index.html">WHC Home</a></li>
+          <li><a href="index.html#visit">Plan Your Visit</a></li>
+          <li><a href="index.html#services">Service Times</a></li>
+          <li><a href="index.html#ministries">Kids Ministry</a></li>
+          <li><a href="mailto:webmaster@whc.life">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="https://www.youtube.com/@rodparsley/streams" target="_blank">Watch Live</a></li>
+          <li><a href="https://v4.whc.life/donate">Give Online</a></li>
+          <li><a href="index.html#bfg">Bible Groups</a></li>
+          <li><a href="https://whc.life/onlineform/64" target="_blank">Volunteer</a></li>
+          <li><a href="https://v4.whc.life/notifications">Notifications</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 World Harvest Church · All rights reserved · <a href="https://whc.life/privacy-policy">Privacy Policy</a></p>
+      <p><a href="https://maps.app.goo.gl/6sUwTmPKDDXbqZ5n8" target="_blank">4595 Gender Rd. Canal Winchester, OH 43110</a> · <a href="tel:6148371990">(614) 837-1990</a></p>
+    </div>
+  </div>
+</footer>
+
+<button id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+  /* ─── REVEAL ─────────────────────────────── */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+  }, { threshold: 0.09, rootMargin: '0px 0px -32px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  /* ─── NAV STICKY ─────────────────────────── */
+  const mainNav = document.getElementById('mainNav');
+  const navLinkItems = document.querySelectorAll('.nav-links-row .nav-link-item');
+  function updateNav() {
+    mainNav.classList.toggle('scrolled', window.scrollY > 80);
+    let current = '';
+    ['about-vbs','details','parents','faq'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= 90) current = '#' + id;
+    });
+    navLinkItems.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === current); });
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  /* ─── SMOOTH SCROLL ──────────────────────── */
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    if (href === '#') return;
+    const target = document.querySelector(href);
+    if (target) { e.preventDefault(); window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' }); }
+  });
+
+  /* ─── SIDEBAR ────────────────────────────── */
+  const overlay = document.getElementById('overlay');
+  const sidebarMobile = document.getElementById('sidebarMobile');
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const sidebarClose = document.getElementById('sidebarClose');
+
+  function openSidebar() {
+    sidebarMobile.classList.add('open'); overlay.classList.add('active');
+    document.body.classList.add('no-scroll');
+    hamburgerBtn.setAttribute('aria-expanded', 'true');
+  }
+  function closeSidebar() {
+    sidebarMobile.classList.remove('open'); overlay.classList.remove('active');
+    document.body.classList.remove('no-scroll');
+    hamburgerBtn.setAttribute('aria-expanded', 'false');
+  }
+  hamburgerBtn.addEventListener('click', openSidebar);
+  sidebarClose.addEventListener('click', closeSidebar);
+  overlay.addEventListener('click', closeSidebar);
+
+  /* ─── FAQ ACCORDION ──────────────────────── */
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  /* ─── BACK TO TOP ────────────────────────── */
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => { backToTop.classList.toggle('visible', window.scrollY > 500); }, { passive: true });
+  backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* ─── CONFETTI ───────────────────────────── */
+  (function() {
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:1;';
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    const colors = ['#F5C518','#FFD94A','#0081C8','#DF0024','#00A651','#FCB131','#ffffff'];
+    let pieces = [];
+    let animating = true;
+
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+
+    function spawn() {
+      for (let i = 0; i < 120; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * -200,
+          w: Math.random() * 10 + 5,
+          h: Math.random() * 4 + 2,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 2,
+          vy: Math.random() * 3 + 1.5,
+          rot: Math.random() * 360,
+          rotV: (Math.random() - 0.5) * 8,
+          opacity: Math.random() * 0.7 + 0.3,
+        });
+      }
+    }
+    spawn();
+
+    let lastSpawn = 0;
+    function draw(ts) {
+      if (!animating) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pieces.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.rot += p.rotV;
+        ctx.save();
+        ctx.globalAlpha = p.opacity;
+        ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
+        ctx.rotate(p.rot * Math.PI / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      });
+      pieces = pieces.filter(p => p.y < canvas.height + 20);
+      if (ts - lastSpawn > 3500 && pieces.length < 200) { spawn(); lastSpawn = ts; }
+      if (pieces.length === 0) animating = false;
+      if (animating) requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+
+    // Stop after 12s
+    setTimeout(() => { animating = false; ctx.clearRect(0, 0, canvas.width, canvas.height); }, 12000);
+  })();
+</script>
+</body>
+</html>
